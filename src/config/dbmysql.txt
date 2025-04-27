@@ -1,0 +1,70 @@
+
+
+use sistemaEstoque;
+
+create table categoria(
+	id int primary key auto_increment,
+    nome varchar(50) not null,
+    descricao varchar(500) not null
+);
+
+create table produto (
+	id int primary key auto_increment,
+    nome varchar(50) not null,
+    descricao varchar(250) not null,    
+    categoriaId int not null,
+    foreign key (categoriaId) references categoria(id)  
+);
+create table saldo (
+	id int primary key auto_increment,
+	quantidade int not null,
+    precoUnitario decimal(10,2) not null,
+    custoMedio decimal(10,2) not null,
+    precoVendaMedio decimal (10,2) not null,
+    produtoId int not null,
+    foreign key (produtoId) references produto(id)  
+);
+create table usuario(
+	id int primary key auto_increment,
+    login varchar(50) not null,
+    email varchar(100) not null,
+    senha varchar(250) not null
+);
+
+create table armazem(
+	id int primary key auto_increment,
+    nome varchar(50) not null  
+);
+create table cliente(
+	id int primary key auto_increment,
+    nome varchar(50) not null  
+);
+create table fornecedor(
+	id int primary key auto_increment,
+    nome varchar(50) not null  
+);
+create table localizacao (
+	id int primary key auto_increment,    
+    descricao varchar(250) not null,    
+    tipo enum("interno","externo") not null,
+    fornecedorId int,
+    clienteId int,
+    armazemInternoId int,
+    foreign key (fornecedorId) 	 references fornecedor(id),
+    foreign key (clienteId)	 	 references cliente(id),
+    foreign key (armazemInternoId) references armazem(id) 
+);
+
+create table movimentacoesEstoque (
+	id int primary key auto_increment,
+    responsavelId int not null,
+    produtoId int not null,    
+    destinoId  int  not null,
+    origemId int  not null,
+    data datetime not null,
+    tipo enum("entrada","saida","interno") not null,    
+	foreign key (responsavelId) references usuario(id),
+    foreign key (produtoId)     references produto(id),
+    foreign key (origemId)      references localizacao(id),
+    foreign key (destinoId)     references localizacao(id)
+);
