@@ -1,6 +1,6 @@
 const Produto = require('../models/produtoModel');
 const Categoria = require('../models/categoriaModel');
-const CategoriaProduto = require('../models/categoriaEprodutosModel');
+
 // Listar todos os produtos
 async function listarProdutos(req, res) {
     try {
@@ -25,7 +25,6 @@ async function buscarProdutoPorId(req, res) {
         if (!produto) {
             return res.status(404).json({ erro: 'Produto não encontrado.' });
         }
-
         res.json(produto);
     } catch (error) {
         console.error(error);

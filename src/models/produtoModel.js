@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database'); // ajusta o caminho para onde está sua conexão
-
+const Categoria = require("../models/categoriaModel");
 const Produto = sequelize.define('Produto', {
     id: {
         type: DataTypes.INTEGER,
@@ -24,5 +24,8 @@ const Produto = sequelize.define('Produto', {
     tableName: 'produto', // nome da tabela real no banco
     timestamps: false // desativa createdAt e updatedAt
 });
-
+Produto.belongsTo(Categoria,
+    {
+        foreignKey: 'categoriaId'
+    });
 module.exports = Produto;
